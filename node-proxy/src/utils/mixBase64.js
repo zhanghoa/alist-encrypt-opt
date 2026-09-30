@@ -102,6 +102,25 @@ function MixBase64(passwd, salt = 'mix64') {
   }
 }
 
+// 性能优化: new MixBase64(passwd) 要做一次 sha256 + 64 元素 KSA 洗牌 + split + 建映射表，
+// 实测约 66µs/次；而 encodeName/decodeName 在目录列表路径上**每个文件每段都会 new 一次**。
+// 实例本身只取决于 passwd，故按 passwd 缓存复用（实例内部无可变状态，线程/并发安全）。
+const _instanceCache = new Map()
+const INSTANCE_CACHE_MAX = parseInt(process.env.MIX_INSTANCE_CACHE_MAX || '', 10) || 128
+
+MixBase64.getShared = function (passwd, salt) {
+  const key = (salt === undefined ? '' : salt) + '\u0000' + passwd
+  const hit = _instanceCache.get(key)
+  if (hit) return hit
+  const inst = salt === undefined ? new MixBase64(passwd) : new MixBase64(passwd, salt)
+  if (_instanceCache.size >= INSTANCE_CACHE_MAX) {
+    const oldest = _instanceCache.keys().next().value
+    _instanceCache.delete(oldest)
+  }
+  _instanceCache.set(key, inst)
+  return inst
+}
+
 MixBase64.sourceChars = source.split('')
 
 // plaintext check bit

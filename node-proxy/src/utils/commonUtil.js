@@ -102,7 +102,8 @@ export function encodeName(password, encType, plainName) {
   }
   const passwdOutward = FlowEnc.getPassWdOutward(password, encType)
   //  randomStr
-  const mix64 = new MixBase64(passwdOutward)
+  // 性能优化: 复用实例
+  const mix64 = MixBase64.getShared(passwdOutward)
   let encodeName = mix64.encode(plainName)
   const crc6Bit = crc6.checksum(Buffer.from(encodeName + passwdOutward))
   const crc6Check = MixBase64.getSourceChar(crc6Bit)
@@ -122,7 +123,8 @@ export function decodeName(password, encType, encodeName) {
   }
   const crc6Check = encodeName.substring(encodeName.length - 1)
   const passwdOutward = FlowEnc.getPassWdOutward(password, encType)
-  const mix64 = new MixBase64(passwdOutward)
+  // 性能优化: 复用实例，避免每次调用重复做 sha256 + KSA 洗牌(实测 ~66µs/次)
+  const mix64 = MixBase64.getShared(passwdOutward)
   // start dec
   const subEncName = encodeName.substring(0, encodeName.length - 1)
   const crc6Bit = crc6.checksum(Buffer.from(subEncName + passwdOutward))
