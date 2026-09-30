@@ -1,0 +1,17 @@
+node_modules/
+dist/
+logs/
+conf/
+.git/
+.github/
+*.log
+*.md
+!README.md
+.gitignore
+.dockerignore
+enc-webui/
+test/
+tools/
+vitest.config.mjs
+tsconfig*.json
+.*rc

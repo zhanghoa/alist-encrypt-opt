@@ -109,7 +109,8 @@ async function init() {
       admin = { username: 'admin', headImgUrl: '/public/logo.svg', password: '123456', roleId: '[13]' }
       await addUserInfo(admin)
     }
-    console.log('@@init', admin)
+    // 修复(#5): 不要把用户信息(含密码)打进日志
+    console.log('@@init admin ready')
   } catch (e) {}
 }
 init()
@@ -143,4 +144,13 @@ export const alistServer = configData.alistServer || alistServerTemp
 
 export const webdavServer = configData.webdavServer || webdavServerTemp
 
-console.log('configData ', configData)
+// 修复(#5): 上游会把整个 configData(含所有加密目录的明文密码)打印到标准输出。
+// 改为只打印结构概要，敏感字段一律不输出。
+console.log(
+  '@@config loaded: alist path rules =',
+  (configData.alistServer?.passwdList || []).length,
+  ', webdav servers =',
+  (configData.webdavServer || []).length,
+  ', port =',
+  configData.port || 5344
+)
