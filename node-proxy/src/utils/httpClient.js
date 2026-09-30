@@ -9,6 +9,11 @@ import { logger } from '@/common/logger'
 const Agent = http.Agent
 const Agents = https.Agent
 
+// httpClient 收集响应体的上限，防止后端异常大响应吃光内存（可由环境变量覆盖）
+const MAX_BUFFER = parseInt(process.env.HTTP_CLIENT_MAX_BUFFER || '', 10) || 64 * 1024 * 1024
+// 上游请求超时（毫秒）。流式下载需要更长超时，故默认给一个宽松值
+const httpTimeoutMs = parseInt(process.env.UPSTREAM_TIMEOUT_MS || '', 10) || 120 * 1000
+
 // 默认maxFreeSockets=256
 const httpsAgent = new Agents({ keepAlive: true })
 const httpAgent = new Agent({ keepAlive: true })
@@ -30,7 +35,9 @@ export async function httpProxy(request, response, encryptTransform, decryptTran
     const httpReq = httpRequest.request(urlAddr, options, async (httpResp) => {
       logger.debug('@@statusCode', reqId, httpResp.statusCode, httpResp.headers)
       response.statusCode = httpResp.statusCode
-      if (response.statusCode % 300 < 5) {
+      // 修复(#2): 上游用 statusCode % 300 < 5 判断重定向，
+      // 该取模技巧会把 600~604、900~904 等状态码也误判为 3xx。改为显式区间判断。
+      if (response.statusCode >= 300 && response.statusCode < 400) {
         // 可能出现304，redirectUrl = undefined
         const redirectUrl = httpResp.headers.location || '-'
         // 百度云盘不是https，坑爹，因为天翼云会多次302，所以这里要保持，跳转后的路径保持跟上次一致，经过本服务器代理就可以解密
@@ -76,6 +83,22 @@ export async function httpProxy(request, response, encryptTransform, decryptTran
     })
     httpReq.on('error', (err) => {
       logger.error('@@httpProxy request error ', reqId, err, urlAddr, headers)
+      // 修复(#2): 上游此处仅打日志，Promise 不落地 -> 请求永久悬挂。
+      // 这里显式结束响应并 resolve，保证 koa 链路得以收尾。
+      try {
+        if (!response.headersSent) {
+          response.statusCode = 502
+          response.end('Bad Gateway')
+        } else {
+          response.end()
+        }
+      } catch {}
+      resolve()
+    })
+    // 上游请求也应设置超时，避免后端不响应时 socket 永久占用
+    httpReq.setTimeout(httpTimeoutMs, () => {
+      logger.error('@@httpProxy request timeout', reqId, urlAddr)
+      httpReq.destroy(new Error('upstream timeout'))
     })
     // 是否需要加密
     encryptTransform ? request.pipe(encryptTransform).pipe(httpReq) : request.pipe(httpReq)
@@ -115,18 +138,39 @@ export async function httpClient(request, response) {
         // 会导致直接响应了Content-length: 123, 外部修改的body长度变化后就没法使用，而且外部需要要用ctx.body
         // 因为ctx.body 会重新计算响应的Content-length
       }
-      let result = ''
+      let chunks = []
+      let total = 0
       httpResp
         .on('data', (chunk) => {
-          result += chunk
+          // 修复(#2): 上游用 result += chunk 做字符串拼接,会把 Buffer 隐式 toString(),
+          // PROPFIND 等二进制/非 UTF8 响应会被损坏(乱码),且无大小上限有 OOM 风险。
+          chunks.push(chunk)
+          total += chunk.length
+          if (total > MAX_BUFFER) {
+            chunks = null
+            httpResp.destroy()
+            reject(new Error(`httpClient: 响应超过上限 ${MAX_BUFFER} 字节 ${url}`))
+          }
         })
         .on('end', () => {
-          resolve(result)
-          logger.info('httpClient响应结束.', method, result.length, url)
+          const buf = chunks === null ? Buffer.alloc(0) : Buffer.concat(chunks, total)
+          // 调用方普遍把返回值当字符串用(JSON.parse / parser.parse),
+          // 这里一次性由 Buffer 转字符串,避免逐块隐式转换导致的多字节字符截断乱码
+          resolve(buf.toString('utf8'))
+          logger.info('httpClient响应结束.', method, total, url)
+        })
+        .on('error', (err) => {
+          logger.error('@@httpClient response error ', err, url)
+          reject(err)
         })
     })
     httpReq.on('error', (err) => {
       logger.error('@@httpClient request error ', err)
+      // 修复(#2): 上游只打日志不 reject,Promise 永不落地,客户端请求一直挂到超时
+      try {
+        if (response && !response.headersSent) response.statusCode = 502
+      } catch {}
+      reject(err)
     })
     // check request type
     if (!reqBody) {
