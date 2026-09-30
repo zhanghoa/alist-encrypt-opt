@@ -47,17 +47,18 @@ const cacheFileInfoList = async (ctx, next) => {
     await next()
     return
   }
+  // 修复(#3): 上游同样不 await cacheFileInfo，再用 sleep(50) 猜"够了没"，
+  // 且只在 content.length > 100 时才睡 —— 少于 100 个文件时根本不等，逻辑自相矛盾。
+  // 改为无论多少文件都统一 await，单个失败不影响列表返回。
+  const cacheTasks = []
   for (let i = 0; i < content.length; i++) {
     const fileInfo = content[i]
     fileInfo.path = realfoldPath + '/' + fileInfo.name
     // 这里要注意闭包问题，mad
     logger.debug('@@cacheFileInfo_path', fileInfo.path)
-    cacheFileInfo(fileInfo)
+    cacheTasks.push(cacheFileInfo(fileInfo))
   }
-  // waiting cacheFileInfo a moment
-  if (content.length > 100) {
-    await sleep(50)
-  }
+  await Promise.allSettled(cacheTasks)
   logger.info('@@fs/list', content.length)
   await next()
 }

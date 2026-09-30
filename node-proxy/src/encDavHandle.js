@@ -45,7 +45,9 @@ function getFileNameForShow(fileInfo, passwdInfo) {
   return {}
 }
 
-function cacheWebdavFileInfo(fileInfo) {
+// 修复(#3): 原实现内部调用 async 的 cacheFileInfo 却不 await 也不返回 Promise，
+// 调用方无法等待缓存真正落地（只能靠 sleep 猜）。改为 async 并透出 Promise。
+async function cacheWebdavFileInfo(fileInfo) {
   let getcontentlength = -1
   const href = fileInfo.href
   const fileName = path.basename(href)
@@ -54,16 +56,16 @@ function cacheWebdavFileInfo(fileInfo) {
   } else if (fileInfo.propstat.prop) {
     getcontentlength = fileInfo.propstat.prop.getcontentlength
   }
-  logger.info('@@cacheWebdavFileInfo', decodeURI(href), href, fileName)
+  logger.debug('@@cacheWebdavFileInfo', decodeURI(href), href, fileName)
   // it is a file
   if (getcontentlength !== undefined && getcontentlength > -1) {
     const fileDetail = { path: href, name: fileName, is_dir: false, size: getcontentlength }
-    cacheFileInfo(fileDetail, true)
+    await cacheFileInfo(fileDetail, true)
     return fileDetail
   }
   // cache this folder info
   const fileDetail = { path: href, name: fileName, is_dir: true, size: 0 }
-  cacheFileInfo(fileDetail, true)
+  await cacheFileInfo(fileDetail, true)
   return fileDetail
 }
 
@@ -150,11 +152,14 @@ const preHandle = async (ctx, next) => {
       const respJson = respData.multistatus.response
       // 这里是获取到列表，文件夹和文件
       if (respJson instanceof Array) {
-        // logger.info('@@respJsonArray', respJson)
+        // 修复(#3): 上游在 forEach 里调用 cacheWebdavFileInfo 但不 await，
+        // 随后"赌运气"式 await sleep(100) 等缓存落地。低配设备或文件多时 100ms 不够，
+        // 缓存未命中 -> 后续请求无法判断"是文件还是目录" -> 请求被错误处理 -> 404。
+        // 改为收集 Promise 后统一 await，用 0ms 的固定等待替换不定猜测。
+        const cacheTasks = []
         respJson.forEach((fileInfo) => {
-          // logger.info('@@webdav fileInfo ', fileInfo)
           // cache real file info，include forder name
-          cacheWebdavFileInfo(fileInfo)
+          cacheTasks.push(cacheWebdavFileInfo(fileInfo))
           if (passwdInfo && passwdInfo.encName) {
             const { fileName, showName, showFolderName } = getFileNameForShow(fileInfo, passwdInfo)
             // logger.debug('@@getFileNameForShow1 list', passwdInfo.password, fileName, decodeURI(fileName), showName)
@@ -178,8 +183,8 @@ const preHandle = async (ctx, next) => {
             }
           }
         })
-        // waiting cacheWebdavFileInfo a moment
-        await sleep(100)
+        // 等缓存真正写完（而不是睡固定 100ms 碰运气）；单个失败不影响整体响应
+        await Promise.allSettled(cacheTasks)
       } else if (passwdInfo && passwdInfo.encName) {
         // 这里PROPFIND请求的是文件信息，上面得到是列表后，客户端还会继续请求每个文件的信息。。。
         const fileInfo = respJson
