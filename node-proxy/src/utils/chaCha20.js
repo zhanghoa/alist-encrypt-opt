@@ -1,5 +1,6 @@
 import { Transform } from 'stream'
 import crypto from 'crypto'
+import { createChaCha20 } from './chaCha20Native'
 /**
  *
  * @param {Uint8Array} key
@@ -9,7 +10,10 @@ import crypto from 'crypto'
  *
  * @constructor
  */
-// ChaCha20 纯JS实现（无依赖）
+// ChaCha20 —— 保留原类名以保证调用方零改动。
+// 性能优化: 内部委派给"原生优先、纯JS兜底"的实现工厂(createChaCha20)。
+// 原生实现的密钥流与这里的纯JS实现逐字节一致(已由 test/compat.test.mjs 的
+// 黄金向量验证)，因此**已加密的旧文件不受任何影响**。
 class ChaCha20 {
   constructor(password, sizeSalt, counter) {
     // 用于测试验证，chacha算法
@@ -40,13 +44,13 @@ class ChaCha20 {
     if (!(nonce instanceof Uint8Array) || nonce.length !== 12) {
       throw new Error('Nonce should be 12 byte array!')
     }
-    // key: 32字节 Uint8Array
-    // nonce: 12字节 Uint8Array (RFC8439标准)
+    // 委派给原生(优先)/纯JS(兜底)的实现
+    this._impl = createChaCha20(key, nonce, counter)
+    // 保留原字段语义，供外部可能读取
     this.key = [...key]
     this.nonce = [...nonce]
     this.counter = counter
-    this._bufPos = 0
-    this._keystream = new Uint8Array(64)
+    return this
   }
 
   _rotl(v, n) {
@@ -101,6 +105,35 @@ class ChaCha20 {
 
   // 加密/解密（异或运算，两者通用）
   update(data) {
+    return this._impl.update(data)
+  }
+
+  encrypt(messageBytes) {
+    return this._impl.encrypt(messageBytes)
+  }
+
+  decrypt(messageBytes) {
+    return this._impl.decrypt(messageBytes)
+  }
+
+  setPosition(position) {
+    return this._impl.setPosition(position)
+  }
+
+  async setPositionAsync(position) {
+    return this._impl.setPosition(position)
+  }
+
+  encryptTransform() {
+    return this._impl.encryptTransform()
+  }
+
+  decryptTransform() {
+    return this._impl.decryptTransform()
+  }
+
+  // ↓↓↓ 以下是原始纯JS实现，保留作为不支持原生时的兜底与对照基准 ↓↓↓
+  _jsUpdate(data) {
     const out = new Uint8Array(data.length)
     let pos = 0
     while (pos < data.length) {
@@ -116,46 +149,7 @@ class ChaCha20 {
     return out
   }
 
-  encrypt(messageBytes) {
-    return this.update(messageBytes)
-  }
 
-  decrypt(messageBytes) {
-    return this.update(messageBytes)
-  }
-
-  encryptTransform() {
-    return new Transform({
-      // use anonymous func make sure `this` point to rc4
-      transform: (chunk, encoding, next) => {
-        next(null, this.encrypt(chunk))
-      },
-    })
-  }
-
-  decryptTransform() {
-    return new Transform({
-      transform: (chunk, encoding, next) => {
-        next(null, this.decrypt(chunk))
-      },
-    })
-  }
-
-  // 保持跟接口类型一致，异步执行
-  async setPositionAsync(position) {
-    this.setPosition(position)
-  }
-
-  setPosition(position) {
-    // 重置counter和_bufPos
-    this.counter = Math.floor(position / 64) + 1
-    // 空跑偏移量也可以
-    this._bufPos = 0
-    this.update(new Uint8Array(position % 64))
-    // 下面的也可以
-    // this._block()
-    // this._bufPos = position % 64
-  }
 
   /**
    * 将 Uint8Array 转换为 Uint32Array (小端序) ，地位靠前
