@@ -9,6 +9,7 @@ import { XMLParser } from 'fast-xml-parser'
 import FlowEnc from '@/utils/flowEnc'
 import { getWebdavFileInfo } from '@/utils/webdavClient'
 import { log } from 'console'
+import { rewriteXmlNames, useStructuredXml } from '@/utils/xmlRewrite'
 
 async function sleep(time) {
   return new Promise((resolve) => {
@@ -146,6 +147,25 @@ const preHandle = async (ctx, next) => {
     logger.info('@@request_webdav', url, ctx.req.url, request.urlAddr)
     // decrypt file name
     let respBody = await httpClient(ctx.req, ctx.res)
+
+    // ── 修复(#7)：可选的结构化 XML 改写 ────────────────────────────────
+    // 上游用字符串 replace 改写 `<D:href>` / `<D:displayname>`，命名空间前缀写死为 D:，
+    // 群晖/ES/rclone/macOS 等客户端前缀不同(或无前缀)时替换静默失效 -> 显示加密名。
+    // USE_STRUCTURED_XML=1 时改用"解析->改字段->序列化"，对各类前缀都成立。
+    if (useStructuredXml() && passwdInfo && passwdInfo.encName) {
+      const rewritten = rewriteXmlNames(respBody, (rawName, isDir) => {
+        const shown = convertShowName(passwdInfo.password, passwdInfo.encType, rawName)
+        if (!shown) return null
+        // convertShowName 对解密失败的名字加 orig_ 前缀，保持上游语义
+        if (isDir && !passwdInfo.encFolder) return null
+        return shown
+      })
+      if (rewritten !== respBody) {
+        respBody = rewritten
+        logger.debug('@@structured_xml_rewritten', ctx.req.url)
+      }
+    }
+    // ──────────────────────────────────────────────────────────────────
     const respData = parser.parse(respBody)
     // convert file name for show
     if (respData.multistatus) {
