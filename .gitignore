@@ -1,0 +1,8 @@
+node_modules/
+dist/
+ts-out-dir/
+logs/
+conf/
+*.log
+.DS_Store
+.env
