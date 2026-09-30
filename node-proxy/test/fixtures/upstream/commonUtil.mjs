@@ -1,10 +1,10 @@
-import FlowEnc from './flowEnc'
-import { compilePathPattern, matchCompiledPath, compilePasswdList } from './pathMatcher'
+import { pathToRegexp } from 'path-to-regexp'
+import FlowEnc from './flowEnc.mjs'
 import path from 'path'
 
-import MixBase64 from './mixBase64'
-import Crcn from './crc6-8'
-import { logger } from '@/common/logger'
+import MixBase64 from './mixBase64.mjs'
+import Crcn from './crc6-8.mjs'
+import { logger } from '../_stubs/logger.mjs'
 
 const crc6 = new Crcn(6)
 const origPrefix = 'orig_'
@@ -75,25 +75,15 @@ export function convertRealPath(passwdList, fpath, encodeUri = false) {
 }
 
 // 判断是否为匹配的路径encPath:[]
-// 修复: 上游 pathToRegexp(new RegExp(p)) 生成**未锚定**正则且 '*' 语义错乱,
-// 导致 /backup/movie_encrypt_old/x.mp4 之类的路径被 movie_encrypt/* 误命中。
-// 现改用 pathMatcher 的锚定编译; 同时预编译结果被缓存,避免每次请求重复编译。
-const _execCache = new Map()
 export function pathExec(encPath, url) {
   for (const filePath of encPath) {
-    let re = _execCache.get(filePath)
-    if (!re) {
-      re = compilePathPattern(filePath)
-      _execCache.set(filePath, re)
-    }
-    const result = re.exec(url)
+    const result = pathToRegexp(new RegExp(filePath)).exec(url)
     if (result) {
       return result
     }
   }
   return null
 }
-export { compilePathPattern, matchCompiledPath, compilePasswdList }
 // 不允许加密乱码名字
 export function encodeName(password, encType, plainName) {
   const isBad = isBadText(plainName)
@@ -164,7 +154,7 @@ export function decodeFromFolder(password, encType, encodeName) {
 export function pathFindPasswd(passwdList, url) {
   for (const passwdInfo of passwdList) {
     for (const filePath of passwdInfo.encPath) {
-      const result = passwdInfo.enable ? pathExec([filePath], url) : null
+      const result = passwdInfo.enable ? pathToRegexp(new RegExp(filePath)).exec(url) : null
       if (result) {
         // check folder name is can decode
         // getPassInfo()

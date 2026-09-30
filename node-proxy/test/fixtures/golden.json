@@ -1,0 +1,772 @@
+{
+  "_generated": "2026-09-30T16:40:32.648Z",
+  "_source": "upstream @ conscious clone",
+  "vectors": [
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 1,
+      "plainSha": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "cipherSha": "ca358758f6d27e6cf45272937977a748fd88391db679ceda7dc7bf1f005ee879",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 127,
+      "plainSha": "51fc7d9188aed92b014fd1647fedae91b14b5f421498ae43697a3f8223d26f07",
+      "cipherSha": "5a7937ce687f889f03358a8df65d635bf6f4692b0aeb3abdc5d5855f2d6e91db",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 128,
+      "plainSha": "29d6925dd75c476bc4a4b490b931b2d696c0cb32a212e1e5425555a92fd2f3af",
+      "cipherSha": "04b86fff37a1100e1313b2bbacb5825b175c3a9700ed4b9669b9d0de8767cfb4",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 4096,
+      "plainSha": "7b00ae23da40b050eb5ac00e9d19c4d1054469721d86c09589af19aa7d45efce",
+      "cipherSha": "8cf3f70249bfb9b408c209ff44018e28edfe11fc2d8d433c06a5da7b55d7dc1c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 65536,
+      "plainSha": "d128ca8fcdc76720a360b2a0054f5952e4b8038c928da0e490fccc744464b1c2",
+      "cipherSha": "cfbc32aacb3667a422fbd4d7b02306fdd0ccb7e8d8c2a4783e0ee5887b62584c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 999999,
+      "plainSha": "6829188bce8002ca95145c3d167215354ff05d229047ba9784edeb5f1a5bfacc",
+      "cipherSha": "dd54c6f2921ae77634002990d08ef387317f4fcbe9fcb8f41aa59f770eb61bb1",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 1000000,
+      "plainSha": "fb69120ec799a084d30d3309b063f5e42f86b13253cedcc5cb4ff7a0df13c65e",
+      "cipherSha": "12d694fce08393a27cf2c91f15bf9da467378d4a49fc058abf9a714082257977",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 1000001,
+      "plainSha": "1a796a5c06a255bc81cf40c3ab13fdc4cc035d81f767aa263cf1c008e92b407e",
+      "cipherSha": "e8b8682a855f0cd074d3ed4998304ee5ea970e1f8a37919ad785548727bf91dd",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "aesctr",
+      "size": 1048576,
+      "plainSha": "47b2f58d3c5a7222448d499918fa3b449c271cecf74545637036c76ed4e3173a",
+      "cipherSha": "97be348df4b977eaa4898a02cb7ad6a8a628e0b0bdb16dc7b2d01f423e7c791b",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 1,
+      "plainSha": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "cipherSha": "d1bbd73bb09190bfb883056771e22e997541ed20079793bf33975fe1654581c3",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 127,
+      "plainSha": "0f9d06e7d8ccb46a1fbe9f39bfa606f79faa0be23f24f535284abd11985892f7",
+      "cipherSha": "c02d2573abe36f06cabf652ff2e8e6716493a6d873f40503cc945ed5f8f2aa7c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 128,
+      "plainSha": "8f30417c2560dbe4d00de39619a78661a77b67f75e32d5a51627fdbc8a9c83c8",
+      "cipherSha": "3e5f36c379178a16ab7b74d11cd38359764a3cfb049f755ce182d4366457687e",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 4096,
+      "plainSha": "4b71d6860644be1f93667fc8f3cadab4fe5d3c99763f4a97b01ac10fb6781acf",
+      "cipherSha": "d7e2a9f6424d7e5d015ca47f9ecd4fbe483c671410201ea671d2007036b65ab0",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 65536,
+      "plainSha": "00822904ed9da3d9c81da2e9a8a7c8f00253f61d2f87af8944aa92dde7c3f821",
+      "cipherSha": "647e53bf1ca871ec32c1c3af76faff777c8dc1c967bb42e7ad250e4f585114a8",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 999999,
+      "plainSha": "97d0c5c1e9b069139dab93bec043aa47f16ae50d930c9d2d3c0b8c7a64a4d2ad",
+      "cipherSha": "04b87a8c396c2f5d0aae3b0ce85390430292733b61b45b9e135db35143f71207",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 1000000,
+      "plainSha": "37ef06d0ff2718680e2fee79c1d5abdb0b8531e32128f4551308508ab421de9b",
+      "cipherSha": "5958e5f23d1bef888f782614e18ecc545fd45a6db52048b8128c393329c4a2d8",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 1000001,
+      "plainSha": "8687436dc67f3c7e10178fc43510862e25052490aac05f1ba2879c0474af5426",
+      "cipherSha": "0e7793306afa3f432e46773ffedcee6355d288bfda384c9e385419d829ad3ef6",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "rc4",
+      "size": 1048576,
+      "plainSha": "62670da2951e8b7bdfa3583877f97fb55f4b57d0c26c21c566b0247a054e5c16",
+      "cipherSha": "35e51439f0d649c1267a7adb4a5aa99b54d0e314fe784fc92d5640fd84b73418",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 1,
+      "plainSha": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "cipherSha": "d16bd22f7196c0a70f4b12aa0b290c4c4acecd5d6ba350ecc8447fbdf4c3819b",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 127,
+      "plainSha": "9a2b537029c13b2b19c409ad5b16af8eaa55dd31a962d2d421d95be37620ec7e",
+      "cipherSha": "76769fa4806059f4a8d6110e1463822898a204f3a14de98aaa229d7da88bc853",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 128,
+      "plainSha": "c88325514fcd412aa4dcf30945b0be3b5a9a4fd528f01ac42f7a12b4253eb2e8",
+      "cipherSha": "cb74474f885002f795867d8cfd21106967362c6f57f73f0c9472153722ad7a28",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 4096,
+      "plainSha": "38d34c49a816e62d78a3989c4210fa3343a7f69db1c0270bf931b1d229e3e4f0",
+      "cipherSha": "a03ddfe1a437a7792b63681191e3b61b674da24772d7a5afe138f2e7ee28526a",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 65536,
+      "plainSha": "6d0e37c307f68f60a261837e0dee19783deee90000032aab90a31b6203ca5bf6",
+      "cipherSha": "e95a93ea478c8075f617ba20432eaa568a0cc83621127d6781c94977f3144fd4",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 999999,
+      "plainSha": "9b556a94f52e12186e07ef6fa80bb6a68c46cb2b8793c3592cf7b97d1d059d65",
+      "cipherSha": "702b7db2d9692a862e2760820e9bfc7b1b01d07bdd0a60b9886da8f342a0f374",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 1000000,
+      "plainSha": "55f085b374c1daf645c06b323bd488b61ec7790e636c26ae6026c7fcc9059655",
+      "cipherSha": "ffb5c505a8d5123264653cc8307259862502a5b19fd409ab484eab50be4b70f7",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 1000001,
+      "plainSha": "4a3693682bc567d3d0edcbd8d832d533efe73e22959ca1e8ce6f3f173ec451d6",
+      "cipherSha": "f428d8b37cbe959a69fea3ea58f2b2f1112ea1dd0d50c87a3975382501c266c1",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 6,
+      "passwordType": "simple",
+      "type": "chacha20",
+      "size": 1048576,
+      "plainSha": "b74a6bea1bfe83174c86c2d7fb6fc2dc6683e6d7aad593a76812af816d2ec060",
+      "cipherSha": "fcdf1e047db5ade71cd02a4b440aa9a7c5b2d8c9e9858a7929a0f4eb2579ebae",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 1,
+      "plainSha": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "cipherSha": "fe1dcd3abfcd6b1655a026e60a05d03a7f71e4b6070f36e6c7e9c4b6f3d3bf1b",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 127,
+      "plainSha": "51fc7d9188aed92b014fd1647fedae91b14b5f421498ae43697a3f8223d26f07",
+      "cipherSha": "fe9968ad25bd79630b87655ed516408c298c3f7390a62f000c7df09a32b1df06",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 128,
+      "plainSha": "29d6925dd75c476bc4a4b490b931b2d696c0cb32a212e1e5425555a92fd2f3af",
+      "cipherSha": "02d7769ba993040be356c7168cf891acc37df8ae97f230b02fbe87bb17f9152c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 4096,
+      "plainSha": "7b00ae23da40b050eb5ac00e9d19c4d1054469721d86c09589af19aa7d45efce",
+      "cipherSha": "d71413af8b62ef6ae269f585fd22f4359ee96026e26219e5c661cedacf951319",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 65536,
+      "plainSha": "d128ca8fcdc76720a360b2a0054f5952e4b8038c928da0e490fccc744464b1c2",
+      "cipherSha": "72aeb25e235ab03ce58bd82693d76e89f2430d44a21e071138f9e4a469fc4061",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 999999,
+      "plainSha": "6829188bce8002ca95145c3d167215354ff05d229047ba9784edeb5f1a5bfacc",
+      "cipherSha": "6e01cb95844dd883ffac18c1a8fb70c4c935f7248248ed74cceaacfd08320cd2",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 1000000,
+      "plainSha": "fb69120ec799a084d30d3309b063f5e42f86b13253cedcc5cb4ff7a0df13c65e",
+      "cipherSha": "ad41c683a64ed8104e829fdf866b4a0991e295141490ba515925498ecd5378c2",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 1000001,
+      "plainSha": "1a796a5c06a255bc81cf40c3ab13fdc4cc035d81f767aa263cf1c008e92b407e",
+      "cipherSha": "df98608432ee1030970aae17ad556c49d09075a4c359f149118a1d3c77b9fc07",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "aesctr",
+      "size": 1048576,
+      "plainSha": "47b2f58d3c5a7222448d499918fa3b449c271cecf74545637036c76ed4e3173a",
+      "cipherSha": "4306796093fecc3a694d74710ac162f69aa96ac00f459d6c928284a98deb442d",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 1,
+      "plainSha": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "cipherSha": "f3df1f9c358ae8eceb8fce7c00614288d113ad55315f4ebb909774a7daadfc84",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 127,
+      "plainSha": "0f9d06e7d8ccb46a1fbe9f39bfa606f79faa0be23f24f535284abd11985892f7",
+      "cipherSha": "9bafa56789695f7ec70923cd8a1db45716cc70b294a578829d28ccce66f436e7",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 128,
+      "plainSha": "8f30417c2560dbe4d00de39619a78661a77b67f75e32d5a51627fdbc8a9c83c8",
+      "cipherSha": "a78c7b6ac3efc2b68cc51c1263328acbc416d90d8869fa35de9e570c74105ace",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 4096,
+      "plainSha": "4b71d6860644be1f93667fc8f3cadab4fe5d3c99763f4a97b01ac10fb6781acf",
+      "cipherSha": "68feee4efa667ee44402bac99ce43abf4b66c3859f940e16b9169bf54418b02b",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 65536,
+      "plainSha": "00822904ed9da3d9c81da2e9a8a7c8f00253f61d2f87af8944aa92dde7c3f821",
+      "cipherSha": "9a0c7f8968c897df1d7904dba2a9dd5b2e22c814bbca23ab000dd08352abe797",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 999999,
+      "plainSha": "97d0c5c1e9b069139dab93bec043aa47f16ae50d930c9d2d3c0b8c7a64a4d2ad",
+      "cipherSha": "89a20b731478e55f42a52d7525a44d8690eee098024b3e0463beb54d7f351382",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 1000000,
+      "plainSha": "37ef06d0ff2718680e2fee79c1d5abdb0b8531e32128f4551308508ab421de9b",
+      "cipherSha": "1c3393fc422d64aea5f6a95da697d02d1ee40f946fff6f670e69218ec492b82a",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 1000001,
+      "plainSha": "8687436dc67f3c7e10178fc43510862e25052490aac05f1ba2879c0474af5426",
+      "cipherSha": "3305f757924a4a65fbc08ac695294e847de6491da49cece037ffdca262c96115",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "rc4",
+      "size": 1048576,
+      "plainSha": "62670da2951e8b7bdfa3583877f97fb55f4b57d0c26c21c566b0247a054e5c16",
+      "cipherSha": "2f5a00e0c791830c9d9a67374c192a97ded818bafe0490ea1b55f98fec2ce400",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 1,
+      "plainSha": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "cipherSha": "acac86c0e609ca906f632b0e2dacccb2b77d22b0621f20ebece1a4835b93f6f0",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 127,
+      "plainSha": "9a2b537029c13b2b19c409ad5b16af8eaa55dd31a962d2d421d95be37620ec7e",
+      "cipherSha": "899d94faf26dcbe6a7af90ea14a2af7eae16236f2567286a65a2b94b84123222",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 128,
+      "plainSha": "c88325514fcd412aa4dcf30945b0be3b5a9a4fd528f01ac42f7a12b4253eb2e8",
+      "cipherSha": "4b76872e2248ff8f56a968deece53233932b1b0b9aea39d68af8633fea515a64",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 4096,
+      "plainSha": "38d34c49a816e62d78a3989c4210fa3343a7f69db1c0270bf931b1d229e3e4f0",
+      "cipherSha": "d9611e96bab10279587f1f879dfd714597bdf087e7d24df64cb802fc4edc1401",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 65536,
+      "plainSha": "6d0e37c307f68f60a261837e0dee19783deee90000032aab90a31b6203ca5bf6",
+      "cipherSha": "def0bdf6cc9bef473b7c2f4b98051f135ce09120612317721450c2026f4d32fc",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 999999,
+      "plainSha": "9b556a94f52e12186e07ef6fa80bb6a68c46cb2b8793c3592cf7b97d1d059d65",
+      "cipherSha": "7a8ba255b96a10c78d3d0a1573a4a8a1e598da83fd518256ac048b5c408af14e",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 1000000,
+      "plainSha": "55f085b374c1daf645c06b323bd488b61ec7790e636c26ae6026c7fcc9059655",
+      "cipherSha": "1d81c32174c080f40aa4799761b4efe8b9cc4d20aa9ec38592767f615e0ab4af",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 1000001,
+      "plainSha": "4a3693682bc567d3d0edcbd8d832d533efe73e22959ca1e8ce6f3f173ec451d6",
+      "cipherSha": "dd26fd707fb0a7c3cc484da3055348b893b386b62460924beaf636fbf1be0e6d",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 32,
+      "passwordType": "hex32",
+      "type": "chacha20",
+      "size": 1048576,
+      "plainSha": "b74a6bea1bfe83174c86c2d7fb6fc2dc6683e6d7aad593a76812af816d2ec060",
+      "cipherSha": "95e8fdab3c1b21f7e3876745f386227c4d5dee01f01d504e25c61f62769152f7",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 1,
+      "plainSha": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "cipherSha": "9defb0a9e163278be0e05aa01b312ec78cfa3726869503385e76e3a4b7950648",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 127,
+      "plainSha": "51fc7d9188aed92b014fd1647fedae91b14b5f421498ae43697a3f8223d26f07",
+      "cipherSha": "9be801e560fc83e176729ee0d93758f146277aa407897ad698e1cb5b479fde1d",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 128,
+      "plainSha": "29d6925dd75c476bc4a4b490b931b2d696c0cb32a212e1e5425555a92fd2f3af",
+      "cipherSha": "15e43069c7f30687738fea4d1f0599d4067495312073d6082c76b2715d42b3b8",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 4096,
+      "plainSha": "7b00ae23da40b050eb5ac00e9d19c4d1054469721d86c09589af19aa7d45efce",
+      "cipherSha": "56583c533bfe92ec51e6c113cadb08f444f42eb21572233c8967b5ba91e36c87",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 65536,
+      "plainSha": "d128ca8fcdc76720a360b2a0054f5952e4b8038c928da0e490fccc744464b1c2",
+      "cipherSha": "7be10d1aeb95061a479d29185856f19e8ded2ea3ce865213d6eafb7eda540c07",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 999999,
+      "plainSha": "6829188bce8002ca95145c3d167215354ff05d229047ba9784edeb5f1a5bfacc",
+      "cipherSha": "afb7de93ebfe6546ed3cfc60b8cd86b6fe0aff9f2097f7abe6d346ab4808253c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 1000000,
+      "plainSha": "fb69120ec799a084d30d3309b063f5e42f86b13253cedcc5cb4ff7a0df13c65e",
+      "cipherSha": "bc8d0102b21c4bc34c8b22cafea6244f48d38ae8bbf40eaeb4d816e1d54db8ad",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 1000001,
+      "plainSha": "1a796a5c06a255bc81cf40c3ab13fdc4cc035d81f767aa263cf1c008e92b407e",
+      "cipherSha": "ad0a1f1757c3d1174281fc32052c65bcdf7464ecb237102cd6f1ebdf7ccabce5",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "aesctr",
+      "size": 1048576,
+      "plainSha": "47b2f58d3c5a7222448d499918fa3b449c271cecf74545637036c76ed4e3173a",
+      "cipherSha": "59084555325ab682e3cc46b7c6e27b597d61b9974aa99a5cf5c46f2f4cc63370",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 1,
+      "plainSha": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "cipherSha": "d1211001882d2ce16a8553e449b6c8b7f71e61836efc2e416143808f20e721e7",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 127,
+      "plainSha": "0f9d06e7d8ccb46a1fbe9f39bfa606f79faa0be23f24f535284abd11985892f7",
+      "cipherSha": "1c023d4b3c469e8e2162c42d2580a455160e7e4b3ff767cdea9abe9ee8ae38d2",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 128,
+      "plainSha": "8f30417c2560dbe4d00de39619a78661a77b67f75e32d5a51627fdbc8a9c83c8",
+      "cipherSha": "9967697134e6a944606a7984cf850b2e1b8b4f9ae8e0fae158c3bbd2eabdcd5c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 4096,
+      "plainSha": "4b71d6860644be1f93667fc8f3cadab4fe5d3c99763f4a97b01ac10fb6781acf",
+      "cipherSha": "21c0f3e0717e7f0664b00b453a126e83c426e6c922c9fd6adb29b8411d459000",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 65536,
+      "plainSha": "00822904ed9da3d9c81da2e9a8a7c8f00253f61d2f87af8944aa92dde7c3f821",
+      "cipherSha": "b16286cd83ca7ee4250493ebe238c507b1de22633a956c043802e25cd949582d",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 999999,
+      "plainSha": "97d0c5c1e9b069139dab93bec043aa47f16ae50d930c9d2d3c0b8c7a64a4d2ad",
+      "cipherSha": "9b270ac66d00936580d04b60e1df22bba01a6bd6549e81ac936b0cb324689a4b",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 1000000,
+      "plainSha": "37ef06d0ff2718680e2fee79c1d5abdb0b8531e32128f4551308508ab421de9b",
+      "cipherSha": "19a5c3afc69757a11070968e28b7c8adf57391ffcc2acbafc681d3d3b89f95f4",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 1000001,
+      "plainSha": "8687436dc67f3c7e10178fc43510862e25052490aac05f1ba2879c0474af5426",
+      "cipherSha": "214a81e686f19d0d309f5b1375fd175245592ab36f17c5f37b7e395784d610d2",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "rc4",
+      "size": 1048576,
+      "plainSha": "62670da2951e8b7bdfa3583877f97fb55f4b57d0c26c21c566b0247a054e5c16",
+      "cipherSha": "d348b6fca1810eafffc4d87558b047c6b68e9a78000560d1d95cfa64166b067a",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 1,
+      "plainSha": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+      "cipherSha": "41b805ea7ac014e23556e98bb374702a08344268f92489a02f0880849394a1e4",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 127,
+      "plainSha": "9a2b537029c13b2b19c409ad5b16af8eaa55dd31a962d2d421d95be37620ec7e",
+      "cipherSha": "bf70d730b1e1bb104665f5262b28bbe93783d081b418a6fa3fd70d4dddc3d198",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 128,
+      "plainSha": "c88325514fcd412aa4dcf30945b0be3b5a9a4fd528f01ac42f7a12b4253eb2e8",
+      "cipherSha": "bb1b8d140a81210ca4460c4392d6386b459ebc38a735d1614c9f9705c92748c7",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 4096,
+      "plainSha": "38d34c49a816e62d78a3989c4210fa3343a7f69db1c0270bf931b1d229e3e4f0",
+      "cipherSha": "e29c0b4d84d557186cef5a68cd931b2640d30c44e196fd75e5c18a23e2eeb8d7",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 65536,
+      "plainSha": "6d0e37c307f68f60a261837e0dee19783deee90000032aab90a31b6203ca5bf6",
+      "cipherSha": "860c92bcc5b9990252da7d3cd6c01d6fbac22855c62fd7dea1ead81bf5a8d73c",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 999999,
+      "plainSha": "9b556a94f52e12186e07ef6fa80bb6a68c46cb2b8793c3592cf7b97d1d059d65",
+      "cipherSha": "eb681cc68d8c97c2d9244c55da516fccdfe6f8ad2c5a0bd11f6f649aa3bc6d51",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 1000000,
+      "plainSha": "55f085b374c1daf645c06b323bd488b61ec7790e636c26ae6026c7fcc9059655",
+      "cipherSha": "676c3a65f0f26dc8c0f70c2a1a53a614f8d5bc4152227ef5adb64e99bb091c0e",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 1000001,
+      "plainSha": "4a3693682bc567d3d0edcbd8d832d533efe73e22959ca1e8ce6f3f173ec451d6",
+      "cipherSha": "61e2fde92eebe9a61a8ab78f67d5cf74a04dc5e90b90ae3c84a226347411f12f",
+      "roundtrip": true
+    },
+    {
+      "passwordLen": 15,
+      "passwordType": "unicode",
+      "type": "chacha20",
+      "size": 1048576,
+      "plainSha": "b74a6bea1bfe83174c86c2d7fb6fc2dc6683e6d7aad593a76812af816d2ec060",
+      "cipherSha": "a88d269cbbd09000557f4abca8f2025ab4fdcd51f6d5330e31806a9cbc17344e",
+      "roundtrip": true
+    }
+  ],
+  "mixBase64": [
+    {
+      "name": "a.txt",
+      "nameLen": 5,
+      "enc": "8AJ6Tc4H",
+      "roundtrip": true
+    },
+    {
+      "name": "电影第1集.mp4",
+      "nameLen": 9,
+      "enc": "JJA-JtSyJDjxUTWtKIJp1~4H",
+      "roundtrip": true
+    },
+    {
+      "name": "Hello World.pdf",
+      "nameLen": 15,
+      "enc": "AknxtkBVnSRjtk4h1kZW",
+      "roundtrip": true
+    },
+    {
+      "name": "中文名字带空格 末集.mkv",
+      "nameLen": 14,
+      "enc": "JLIpJe3cJF5dJ3SsJtIWJDWDJC5Bqr31CQWtKIJp3o8H",
+      "roundtrip": true
+    },
+    {
+      "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "nameLen": 120,
+      "enc": "TcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKfTcKf",
+      "roundtrip": true
+    }
+  ],
+  "passwdOutward": {
+    "aesctr": "a833e459f4e0e47b4b0215c11c518ab2",
+    "rc4": "75ba2f57417c6744cf6e198ad22adf67",
+    "chacha20": "f6156a1c02b28aab424f42aa67a50a1a"
+  }
+}
