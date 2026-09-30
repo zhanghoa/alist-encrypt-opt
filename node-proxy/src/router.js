@@ -22,12 +22,43 @@ allRouter.all(/^\/enc-api\/*/, bodyparserMw, responseHandle, async (ctx, next) =
 })
 
 // 白名单路由
+// 登录失败限速：上游完全没有防爆破，默认密码 admin/123456 可被无限次尝试。
+const loginAttempts = new Map() // key: ip -> {count, firstAt}
+const LOGIN_MAX = parseInt(process.env.LOGIN_MAX_ATTEMPTS || '', 10) || 10
+const LOGIN_WINDOW = parseInt(process.env.LOGIN_WINDOW_MS || '', 10) || 5 * 60 * 1000
+function tooManyAttempts(ip) {
+  const now = Date.now()
+  const rec = loginAttempts.get(ip)
+  if (!rec || now - rec.firstAt > LOGIN_WINDOW) {
+    loginAttempts.set(ip, { count: 1, firstAt: now })
+    return false
+  }
+  rec.count++
+  return rec.count > LOGIN_MAX
+}
+function resetAttempts(ip) {
+  loginAttempts.delete(ip)
+}
+// 定期清理，避免 Map 无限增长
+const sweep = setInterval(() => {
+  const now = Date.now()
+  for (const [ip, rec] of loginAttempts) {
+    if (now - rec.firstAt > LOGIN_WINDOW) loginAttempts.delete(ip)
+  }
+}, LOGIN_WINDOW)
+if (sweep.unref) sweep.unref()
+
 allRouter.all('/enc-api/login', async (ctx, next) => {
   const { username, password } = ctx.request.body
-  console.log(username, password)
-  const userInfo = await getUserInfo(username)
-  console.log(userInfo)
-  if (userInfo && password === userInfo.password) {
+  // 修复(#5): 上游 console.log 会把**明文用户名密码**和完整用户信息打进日志
+  const ip = ctx.request.ip || 'unknown'
+  if (tooManyAttempts(ip)) {
+    ctx.body = { msg: 'too many login attempts, please retry later', code: 429 }
+    return
+  }
+  const userInfo = await getUserInfo(username || '')
+  if (userInfo && password && password === userInfo.password) {
+    resetAttempts(ip)
     // 创建token
     const token = crypto.randomUUID()
     // 异步执行
@@ -36,7 +67,7 @@ allRouter.all('/enc-api/login', async (ctx, next) => {
     ctx.body = { data: { userInfo, jwtToken: token } }
     return
   }
-  ctx.body = { msg: 'passwword error', code: 500 }
+  ctx.body = { msg: 'password error', code: 500 }
 })
 
 // 拦截登录

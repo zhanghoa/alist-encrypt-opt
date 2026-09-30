@@ -78,21 +78,32 @@ export async function encryptFile(password, encType, enc, encPath, outPath, encN
     const writeStream = fs.createWriteStream(outFilePathTemp)
     const readStream = fs.createReadStream(filePath)
     const promise = new Promise((resolve, reject) => {
+      // 修复(#5): 上游监听的是 readStream 的 'end' —— 该事件触发时 writeStream 可能
+      // 还在缓冲、尚未 flush 到磁盘，此时 renameSync 会把**不完整的文件**移到目标路径
+      // （慢速盘/大文件时尤其容易触发，表现为转换后的文件体积不对或打不开）。
+      // 改为监听 writeStream 的 'finish'(数据已写完) + 'close'(fd 已关闭)。
+      // 同时补充 error/close 处理，避免 unhandled 'error' 直接崩进程。
+      readStream.on('error', reject)
+      writeStream.on('error', reject)
       readStream.pipe(enc === 'enc' ? flowEnc.encryptTransform() : flowEnc.decryptTransform()).pipe(writeStream)
-      readStream.on('end', () => {
-        console.log('@@finish filePath', filePath, outFilePathTemp)
-        fs.renameSync(outFilePathTemp, outFilePath)
-        resolve()
+      writeStream.on('close', () => {
+        try {
+          fs.renameSync(outFilePathTemp, outFilePath)
+          console.log('@@finish filePath', filePath, outFilePath)
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
       })
     })
     promiseArr.push(promise)
     if (promiseArr.length > 50) {
-      await Promise.all(promiseArr)
+      await Promise.allSettled(promiseArr)
       promiseArr = []
     }
   }
-  await Promise.all(promiseArr)
-  fs.rmSync(tempDir, { recursive: true })
+  await Promise.allSettled(promiseArr)
+  fs.rmSync(tempDir, { recursive: true, force: true })
   console.log('@@all finish', ((Date.now() - start) / 1000).toFixed(2) + 's')
   clearInterval(interval)
 }

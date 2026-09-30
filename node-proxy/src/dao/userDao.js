@@ -35,7 +35,8 @@ export async function addUserInfo(userInfo) {
 
 export async function updateUserInfo(userInfo) {
   const value = await levelDB.getValue(userTable)
-  if (value[userInfo.username]) {
+  // 修复(#5): 上游在 value 为 null(用户表尚未初始化) 时直接 value[username] 会 TypeError
+  if (value && value[userInfo.username]) {
     value[userInfo.username] = userInfo
     levelDB.setValue(userTable, value)
   }
@@ -43,7 +44,7 @@ export async function updateUserInfo(userInfo) {
 
 export async function delectUserInfo(userInfo) {
   const value = await levelDB.getValue(userTable)
-  if (value[userInfo.username]) {
+  if (value && value[userInfo.username]) {
     delete value[userInfo.username]
     await levelDB.setValue(userTable, value)
   }

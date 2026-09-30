@@ -22,6 +22,19 @@ async function sleep(time) {
 // bodyparser解析body
 const bodyparserMw = bodyparser({ enableTypes: ['json', 'form', 'text'] })
 
+// 修复(#5): 上游对 httpClient 返回值直接 JSON.parse，一旦后端返回 HTML 错误页、
+// 空响应或代理异常文本，就会抛异常并把请求打挂。集中做安全解析。
+function safeJsonParse(text, ctx) {
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch (e) {
+    logger.error('@@JSON.parse failed, upstream returned non-JSON', (text || '').slice(0, 120))
+    if (ctx) ctx.status = 502
+    return null
+  }
+}
+
 const encNameRouter = new Router()
 
 // 缓存alist的文件信息
@@ -36,9 +49,9 @@ const cacheFileInfoList = async (ctx, next) => {
   delete ctx.req.headers['content-length']
   const respBody = await httpClient(ctx.req)
   // logger.info('@@@respBody', respBody)
-  const result = JSON.parse(respBody)
+  const result = safeJsonParse(respBody, ctx)
   ctx.body = result
-  if (!result.data) {
+  if (!result || !result.data) {
     await next()
     return
   }
@@ -87,7 +100,14 @@ const decryptFileList = async (ctx, next) => {
     }
     const coverNameMap = {} //根据不含后缀的视频文件名找到对应的含后缀的封面文件名
     const omitNames = [] //用于隐藏封面文件
-    const { path } = JSON.parse(ctx.req.reqBody)
+    // reqBody 由本文件自己构造，理论上总是合法；但异常情况下仍会导致 500，加保护
+    let bodyPath = ''
+    try {
+      bodyPath = JSON.parse(ctx.req.reqBody || '{}').path || ''
+    } catch {
+      bodyPath = ''
+    }
+    const path = bodyPath
     result.data.content.forEach((fileInfo) => {
       if (fileInfo.is_dir) {
         return
@@ -180,7 +200,7 @@ encNameRouter.all('/api/fs/dirs', bodyparserMw, async (ctx, next) => {
   delete ctx.req.headers['content-length']
   const respBody = await httpClient(ctx.req)
   // logger.info('@@@respBody', respBody)
-  const result = JSON.parse(respBody)
+  const result = safeJsonParse(respBody, ctx)
   ctx.body = result
   // /aliyun/encfold 应该返回 encName，但是正则表达识别不了，必须是/aliyun/encfold/，添加foldPath + '/'
   const { passwdInfo } = pathFindPasswd(ctx.req.webdavConfig.passwdList, foldPath + '/')
@@ -205,7 +225,7 @@ encNameRouter.all('/api/fs/mkdir', bodyparserMw, async (ctx, next) => {
   delete ctx.req.headers['content-length']
   const respBody = await httpClient(ctx.req)
   // logger.info('@@@respBody', respBody)
-  const result = JSON.parse(respBody)
+  const result = safeJsonParse(respBody, ctx)
   ctx.body = result
   logger.info('@@fs/mkdir', realfoldPath)
 })
@@ -273,10 +293,11 @@ encNameRouter.all('/api/fs/get', bodyparserMw, preHandleFolderPath, async (ctx, 
   ctx.req.reqBody = JSON.stringify(ctx.request.body)
   delete ctx.req.headers['content-length']
   const respBody = await httpClient(ctx.req)
-  const result = JSON.parse(respBody)
+  const result = safeJsonParse(respBody, ctx)
   const { headers, webdavConfig } = ctx.req
   const { passwdInfo } = pathFindPasswd(webdavConfig.passwdList, filePath)
-  if (passwdInfo) {
+  // 修复(#5): result/result.data 为 null 时上游直接访问 result.data.raw_url 会 TypeError
+  if (result && result.data && passwdInfo) {
     // 修改返回的响应，匹配到要解密，就302跳转到本服务上进行代理流量
     logger.info('@@getFile ', filePath, ctx.req.reqBody, result)
     const key = crypto.randomUUID()
