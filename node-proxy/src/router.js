@@ -197,12 +197,11 @@ router.all('/encodeFoldName', async (ctx, next) => {
 
 router.all('/decodeFoldName', async (ctx, next) => {
   const { password, folderNameEnc, encType } = ctx.request.body
-  const arr = folderNameEnc.split('_')
-  if (arr.length < 2) {
-    ctx.body = { msg: 'folderName not encdoe', code: 500 }
-    return
-  }
-  const data = decodeFromFolder(password, encType, folderNameEnc)
+  // 修复(上游 bug): 这里原本先对**已加密**的文件夹名做 split('_') 前置检查，
+  // 而加密产物字符表 [A-Za-z0-9-~+] 不含下划线 -> 恒返回 folderName not encdoe，
+  // 该网页功能完全不可用。解析已由 decodeFromFolder 正确实现(先解密再拆分)，
+  // 此处去掉错误的前置拦截。同时对空输入做保护避免 split 抛异常。
+  const data = folderNameEnc ? decodeFromFolder(password, encType, folderNameEnc) : false
   if (!data) {
     ctx.body = { msg: 'folderName is error', code: 500 }
     return

@@ -147,18 +147,40 @@ export function encodeFromFolder(password, encType, folderPasswd, folderEncType)
   return encodeName(password, encType, passwdInfo)
 }
 
+// 已知的算法类型，用于校验解析结果是否真的是"分享文件夹名"
+const KNOWN_ENC_TYPES = ['aesctr', 'rc4', 'chacha20', 'mix']
+
 export function decodeFromFolder(password, encType, encodeName) {
-  const arr = encodeName.split('_')
-  if (arr.length < 2) {
+  // 修复(上游 bug): 原实现直接对**已加密**的文件夹名做 split('_')，
+  // 但加密产物的字符表是 [A-Za-z0-9-~+]，**永远不含下划线**
+  // (实测 5000 次加密 0 次命中 '_')，导致 arr.length 恒为 1 -> 永远 return false。
+  // 结果: "据文件夹名派生密码"功能完全失效(网页解析按钮报 folderName not encdoe，
+  //       代理侧静默退回主密码 -> 分享目录的文件名显示为 orig_xxx)。
+  //
+  // 正确做法: 先解密，再按下划线拆分。
+  //
+  // 安全兜底: CRC6 校验存在约 1.5% 误判率(用错密码也可能通过校验)，
+  // 因此这里额外要求解析结果必须是"已知算法名 + 非空密码"，
+  // 否则视为普通目录名，退回原密码 —— 保证不会误伤已加密的普通文件。
+  let decodeStr = null
+  try {
+    decodeStr = decodeName(password, encType, encodeName)
+  } catch (e) {
     return false
   }
-  const folderEncName = arr[arr.length - 1]
-  const decodeStr = decodeName(password, encType, folderEncName)
   if (!decodeStr) {
-    return decodeStr
+    return false
   }
-  const folderEncType = decodeStr.substring(0, decodeStr.indexOf('_'))
-  const folderPasswd = decodeStr.substring(decodeStr.indexOf('_') + 1)
+  const idx = decodeStr.indexOf('_')
+  if (idx <= 0) {
+    return false
+  }
+  const folderEncType = decodeStr.substring(0, idx)
+  const folderPasswd = decodeStr.substring(idx + 1)
+  if (!KNOWN_ENC_TYPES.includes(folderEncType) || !folderPasswd) {
+    // 不是合法的分享文件夹名 -> 退回主密码
+    return false
+  }
   return { folderEncType, folderPasswd }
 }
 
