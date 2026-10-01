@@ -1,17 +1,27 @@
+# 注意: dist/ **不能**排除 —— 构建产物不在 git 中，由 Docker 内部 npm run build 生成；
+#       排除它会导致 CI/干净 clone 构建失败。
+# 这里只排除"构建镜像用不到、体积大或含敏感信息"的内容。
 node_modules/
-dist/
-logs/
-conf/
 .git/
 .github/
+logs/
+conf/
 *.log
+.DS_Store
+.env
+
+# node-proxy 内部：排除本地构建/缓存产物，源码本身必须保留
+node-proxy/node_modules/
+node-proxy/dist/
+node-proxy/conf/
+node-proxy/logs/
+node-proxy/coverage/
+
+# 前端工程（镜像只需要 node-proxy/public 下已构建的静态资源）
+enc-webui/node_modules/
+enc-webui/dist/
+enc-webui/ts-out-dir/
+
+# 文档对镜像无用
 *.md
 !README.md
-.gitignore
-.dockerignore
-enc-webui/
-test/
-tools/
-vitest.config.mjs
-tsconfig*.json
-.*rc
